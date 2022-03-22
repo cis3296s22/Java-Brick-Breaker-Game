@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class GameBoard extends JPanel {
 
@@ -24,12 +25,12 @@ public class GameBoard extends JPanel {
     private boolean inGame = true;
     private int score = 0;
     private Graphics graphics;
-    public GameBoard() {
+    public GameBoard() throws IOException {
 
         initBoard();
     }
 
-    private void initBoard() {
+    private void initBoard() throws IOException {
 
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -38,7 +39,7 @@ public class GameBoard extends JPanel {
         gameInit();
     }
 
-    private void gameInit() {
+    private void gameInit() throws IOException {
 
         bricks = new Brick[Configurations.N_OF_BRICKS];
 

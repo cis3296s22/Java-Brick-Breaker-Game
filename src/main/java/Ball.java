@@ -1,16 +1,18 @@
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import java.io.IOException;
 
 public class Ball extends Sprite {
 
     private int xdir;
     private int ydir;
 
-    public Ball() {
+    public Ball() throws IOException {
 
         initBall();
     }
 
-    private void initBall() {
+    private void initBall() throws IOException {
 
         xdir = 1;
         ydir = -1;
@@ -20,9 +22,9 @@ public class Ball extends Sprite {
         resetState();
     }
 
-    private void loadImage() {
+    private void loadImage() throws IOException {
 
-        var ii = new ImageIcon("src/images/ball.png");
+        var ii = new ImageIcon(ImageIO.read(Ball.class.getResource("/images/ball.png")));
         image = ii.getImage();
     }
 
