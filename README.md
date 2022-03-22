@@ -11,11 +11,15 @@ https://trello.com/b/43fRtdGo/project-board
 - Download the latest binary from the Release section on the right on GitHub.  
 - On the command line uncompress using
 ```
-tar -xzf  
+tar -xzf Java-Brick-Breaker-Game-<version>.tar.gz
 ```
-- On the command line run with
+- On the command, go to file location inside of uncompressed folder
 ```
-java –jar BrickBreaker.jar
+cd Java-Brick-Breaker-Game-<version>/out/production/concept-AlexHarvey63
+```
+- Run by typing command:
+```
+java BrickBreaker
 ```
 - After running, a window should open up and display the different sprites. Once a change is added that needs to be tested, run the program and see the results of the changes and act on them accordingly. Changes and modifications should be added to other classes by using a text editor or IDE when necessary.
 
