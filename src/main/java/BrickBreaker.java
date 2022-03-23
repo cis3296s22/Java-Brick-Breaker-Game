@@ -1,14 +1,15 @@
 import javax.swing.JFrame;
 import java.awt.EventQueue;
+import java.io.IOException;
 
 public class BrickBreaker extends JFrame {
 
-    public BrickBreaker() {
+    public BrickBreaker() throws IOException {
 
         initUI();
     }
 
-    private void initUI() {
+    private void initUI() throws IOException {
 
         add(new GameBoard());
         setTitle("Breakout");
@@ -23,7 +24,12 @@ public class BrickBreaker extends JFrame {
 
         EventQueue.invokeLater(() -> {
 
-            var game = new BrickBreaker();
+            BrickBreaker game = null;
+            try {
+                game = new BrickBreaker();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             game.setVisible(true);
         });
     }

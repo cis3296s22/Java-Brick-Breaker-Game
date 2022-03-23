@@ -1,16 +1,18 @@
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class Racket extends Sprite  {
 
     private int dx;
 
-    public Racket() {
+    public Racket() throws IOException {
 
         initRacket();
     }
 
-    private void initRacket() {
+    private void initRacket() throws IOException {
 
         loadImage();
         getImageDimensions();
@@ -18,9 +20,9 @@ public class Racket extends Sprite  {
         resetState();
     }
 
-    private void loadImage() {
+    private void loadImage() throws IOException {
 
-        var ii = new ImageIcon("src/images/paddle.png");
+        var ii = new ImageIcon(ImageIO.read(Racket.class.getResource("/images/paddle.png")));
         image = ii.getImage();
     }
 
