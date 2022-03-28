@@ -29,48 +29,8 @@ public class GameBoard extends JPanel {
         setFocusable(true);
         setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
 
-//        setLayout(null);
-//        StartButton.setBounds(100, 100, 120, 40);
-//        HSButton.setBounds(100, 150, 120, 40);
-//        add(StartButton);
-//        add(HSButton);
-//        StartHandler stHandler = new StartHandler();
-//        StartButton.addActionListener(stHandler);
-//        HSHandler hsHandler = new HSHandler();
-//        HSButton.addActionListener(hsHandler);
         gameInit();
     }
-
-//    //Click listener for Start Button
-//    private class StartHandler implements ActionListener{
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            try {
-//                gameInit();
-//                remove(HSButton);
-//                remove(StartButton);
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-//    }
-//
-//
-//
-//    //Click Listener for High score button
-//    private class HSHandler implements ActionListener{
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            try {
-//                HighScoreBoard hsb = new HighScoreBoard();
-//            } catch (FileNotFoundException ex) {
-//                ex.printStackTrace();
-//            }
-//
-//        }
-//    }
 
     private void gameInit() throws IOException {
 

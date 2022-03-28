@@ -71,21 +71,51 @@ public class HighScoreBoard extends JPanel{
                 50);
 
         ArrayList<Integer> scores = new ArrayList<>();
-        String line;
+        String line = br.readLine();
         int y = 100;
-        while((line = br.readLine()) != null)
-        {
-            scores.add(Integer.parseInt(line));
+
+        if(line == null){
+            var font3 = new Font("Verdana", Font.BOLD, 15);
+            g2d.setColor(Color.BLACK);
+            g2d.setFont(font3);
+            g2d.drawString("No Scores yet!", 40, y);
         }
-        scores.sort(Collections.reverseOrder());
-        var font2 = new Font("Verdana", Font.BOLD, 15);
-        g2d.setColor(Color.BLACK);
-        g2d.setFont(font2);
-        for(int i = 0; i < 5; i++){
-            g2d.drawString("#" + (i+1) + ": " + scores.get(i), 40, y);
-            y += 30;
+        else {
+            int nScores = 0;
+            while (line != null) {
+                scores.add(Integer.parseInt(line));
+                nScores++;
+                line = br.readLine();
+            }
+            // If there is less than 5 scores in the score list
+            if(nScores == 1){
+                scores.add(0);
+                scores.add(0);
+                scores.add(0);
+                scores.add(0);
+            }
+            else if(nScores == 2){
+                scores.add(0);
+                scores.add(0);
+                scores.add(0);
+            }
+            else if(nScores == 3){
+                scores.add(0);
+                scores.add(0);
+            }
+            else if(nScores == 4){
+                scores.add(0);;
+            }
+            scores.sort(Collections.reverseOrder());
+            var font2 = new Font("Verdana", Font.BOLD, 15);
+            g2d.setColor(Color.BLACK);
+            g2d.setFont(font2);
+            for (int i = 0; i < 5; i++) {
+                g2d.drawString("#" + (i + 1) + ": " + scores.get(i), 40, y);
+                y += 30;
+            }
+            br.close();
+            in.close();
         }
-        br.close();
-        in.close();
     }
 }
