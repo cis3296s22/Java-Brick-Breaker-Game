@@ -1,4 +1,4 @@
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.EventQueue;
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ public class BrickBreaker extends JFrame {
 
     private void initUI() throws IOException {
 
-        add(new GameBoard());
+        add(new MenuScreen());
         setTitle("Breakout");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);

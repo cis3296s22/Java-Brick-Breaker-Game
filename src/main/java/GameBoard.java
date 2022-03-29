@@ -1,30 +1,23 @@
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.io.*;
 
 public class GameBoard extends JPanel {
 
     private Timer timer;
     private String message = "Game Over";
     private Ball ball;
-    private Racket racket;
+    public Racket racket;
     private Brick[] bricks;
     private boolean inGame = true;
-    private int score = 0;
-    private Graphics graphics;
+    int score = 0;
+
+
     public GameBoard() throws IOException {
 
         initBoard();
@@ -75,16 +68,25 @@ public class GameBoard extends JPanel {
 
         if (inGame) {
 
-            drawObjects(g2d);
+            try {
+                drawObjects(g2d);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
 
-            gameFinished(g2d);
+            try {
+                gameFinished(g2d);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         Toolkit.getDefaultToolkit().sync();
     }
 
-    private void drawObjects(Graphics2D g2d) {
+    private void drawObjects(Graphics2D g2d) throws IOException {
+        // Draw current score at top of panel
         g2d.drawString("Score: " + score, 200, 20);
         g2d.drawImage(ball.getImage(), ball.getX(), ball.getY(),
                 ball.getImageWidth(), ball.getImageHeight(), this);
@@ -102,7 +104,7 @@ public class GameBoard extends JPanel {
         }
     }
 
-    private void gameFinished(Graphics2D g2d) {
+    private void gameFinished(Graphics2D g2d) throws IOException {
 
         var font = new Font("Verdana", Font.BOLD, 18);
         FontMetrics fontMetrics = this.getFontMetrics(font);
@@ -112,6 +114,17 @@ public class GameBoard extends JPanel {
         g2d.drawString(message,
                 (Configurations.WIDTH - fontMetrics.stringWidth(message)) / 2,
                 Configurations.WIDTH / 2);
+
+        FileWriter out = new FileWriter("ScoreList.txt", true);
+        BufferedWriter bw = new BufferedWriter(out);
+
+        if(score != 0){
+            bw.write(Integer.toString(score));
+            bw.newLine();
+        }
+
+        bw.close();
+        out.close();
     }
 
     private class TAdapter extends KeyAdapter {
