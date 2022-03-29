@@ -1,8 +1,10 @@
 import javax.swing.*;
 import java.awt.EventQueue;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.awt.*;
 
-public class BrickBreaker extends JFrame {
+public class BrickBreaker extends JFrame{
 
     public BrickBreaker() throws IOException {
 
@@ -23,7 +25,6 @@ public class BrickBreaker extends JFrame {
     public static void main(String[] args) {
 
         EventQueue.invokeLater(() -> {
-
             BrickBreaker game = null;
             try {
                 game = new BrickBreaker();
