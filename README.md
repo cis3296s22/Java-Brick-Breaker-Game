@@ -37,9 +37,12 @@ java BrickBreaker
 - After running the app, a window should pop-up and display the paddle, ball, and brick sprites along with additional details.
 
 ### UML
-![image](https://user-images.githubusercontent.com/89605166/160740821-e6a740cb-6d12-46c3-b1bc-67f6d2b4fe55.png)
-![image](https://user-images.githubusercontent.com/89605166/160735657-424c4aaa-a611-4958-a4e7-43c8e83c4baf.png)
-![image](https://user-images.githubusercontent.com/89605166/160740854-9ed7c42f-4a77-4774-8b34-bf77f11b7545.png)
+![image](https://user-images.githubusercontent.com/89605166/160741478-9e21a3fe-639c-41a0-b2f4-9af7b0143d39.png)
+![image](https://user-images.githubusercontent.com/89605166/160741483-c92232b9-dfb7-4899-91d0-a8b93b060bb6.png)
+# Brief UML Overview
+The sprite class includes the get and set methods that are used to help generate the visual, moving elements of the game such as the racket, ball and bricks. The racket, ball, and bricks all extend the sprite class, allowing them to initialize their respective positions in the game. The racket class implements the basicallity functionality of the racket such as move and responding to pressed keys by the user. The ball class behaves similarly, initializing its position while also creating its unique, private move function to define its behavior. FInally, Brick acts in a similar manner but includes a boolean variable tracking whether or not it has been touched by the ball. 
+The GameBoard, HIghScoreBoard, and MenuScreen all extend JPanel, a container class. HighScoreBoard and MenuScreen both initialize the visualize components of their respective features. They both use nested private classes, such as returnHandler and startHandler to implement different features of the game such as start and return. GameBoard implements an instance of the racket, and each of the braicks and ball. It is responsible for printing messages to the user such as “game over”. GameBoard also implements user functionality features like pause and resume also by using nested private classes to handle the functions. Similarly it contains a nested class to track each time the user pushes and releases a game key. Finally theBrickBreaker class extends the JFrame class and houses the only main() function for the entire program and is responsible for launching the game.
+
 
 
 
