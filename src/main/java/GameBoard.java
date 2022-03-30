@@ -20,37 +20,36 @@ public class GameBoard extends JPanel {
     JButton resumeButton = new JButton("Resume");
     JButton restartButton = new JButton("Restart");
 
-
     public GameBoard() throws IOException {
 
         initBoard();
-		
+
     }
 
     private void initBoard() throws IOException {
-		
+
         PauseHandler settingHandler = new PauseHandler();
         ResumeHandler resumeHandler = new ResumeHandler();
         RestartHandler restartHandler = new RestartHandler();
-		
-		JPanel buttonPane = new JPanel();
-		buttonPane.setLayout(new GridLayout(0,2));
-		buttonPane.setPreferredSize(new Dimension(250,30));
-		JPanel blank = new JPanel();
-		blank.setVisible(false);
+
+        JPanel buttonPane = new JPanel();
+        buttonPane.setLayout(new GridLayout(0, 2));
+        buttonPane.setPreferredSize(new Dimension(250, 30));
+        JPanel blank = new JPanel();
+        blank.setVisible(false);
         buttonPane.add(pauseButton);
         buttonPane.add(restartButton);
 
-		add(buttonPane);
-		
+        add(buttonPane);
+
         pauseButton.addActionListener(settingHandler);
         resumeButton.addActionListener(resumeHandler);
         restartButton.addActionListener(restartHandler);
-		
-    	pauseButton.setFocusable(false);
-    	restartButton.setFocusable(false);
-    	resumeButton.setFocusable(false);
-		
+
+        pauseButton.setFocusable(false);
+        restartButton.setFocusable(false);
+        resumeButton.setFocusable(false);
+
         addKeyListener(new TAdapter());
         setFocusable(true);
         setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
@@ -144,7 +143,7 @@ public class GameBoard extends JPanel {
         FileWriter out = new FileWriter("ScoreList.txt", true);
         BufferedWriter bw = new BufferedWriter(out);
 
-        if(score != 0){
+        if (score != 0) {
             bw.write(Integer.toString(score));
             bw.newLine();
         }
@@ -192,7 +191,7 @@ public class GameBoard extends JPanel {
     }
 
     // pause game once click on pause button
-    private class PauseHandler implements ActionListener{
+    private class PauseHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -201,46 +200,45 @@ public class GameBoard extends JPanel {
     }
 
     // method to pause game
-    private void pauseGame(){
-		Container parent = pauseButton.getParent();
-		parent.add(resumeButton, 0, 0);
-		parent.remove(pauseButton);
-		parent.revalidate();
-		parent.repaint();
-    	timer.stop();
+    private void pauseGame() {
+        Container parent = pauseButton.getParent();
+        parent.add(resumeButton, 0, 0);
+        parent.remove(pauseButton);
+        parent.revalidate();
+        parent.repaint();
+        timer.stop();
     }
 
     private class ResumeHandler implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             resumeGame();
         }
     }
 
-
-    private void resumeGame(){
-		Container parent = resumeButton.getParent();
-		parent.add(pauseButton, 0, 0);
-		parent.remove(resumeButton);
-		parent.revalidate();
-		parent.repaint();
-    	timer.stop();
-    	timer = new Timer(Configurations.PERIOD, new GameCycle());
+    private void resumeGame() {
+        Container parent = resumeButton.getParent();
+        parent.add(pauseButton, 0, 0);
+        parent.remove(resumeButton);
+        parent.revalidate();
+        parent.repaint();
+        timer.stop();
+        timer = new Timer(Configurations.PERIOD, new GameCycle());
         timer.start();
     }
-    
+
     private class RestartHandler implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e){
-        	try {
-				inGame = true;
-        		timer.stop();
-        		gameInit();
-        	} catch (IOException er) {
-        		er.printStackTrace();
-        	}
+        public void actionPerformed(ActionEvent e) {
+            try {
+                inGame = true;
+                timer.stop();
+                gameInit();
+            } catch (IOException er) {
+                er.printStackTrace();
+            }
         }
     }
 
