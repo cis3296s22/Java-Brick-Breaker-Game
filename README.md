@@ -37,7 +37,8 @@ java BrickBreaker
 - After running the app, a window should pop-up and display the paddle, ball, and brick sprites along with additional details.
 
 ### UML
-![image](https://user-images.githubusercontent.com/89605166/160736903-43eced6c-c2cf-4096-85ab-38269dc6bfe3.png)
+![image](https://user-images.githubusercontent.com/89605166/160739769-4ea00435-31bb-49d1-8985-920c97115854.png)
+![image](https://user-images.githubusercontent.com/89605166/160739778-88033bed-1c14-4530-abc2-bf14f99e6cec.png)
 ![image](https://user-images.githubusercontent.com/89605166/160735657-424c4aaa-a611-4958-a4e7-43c8e83c4baf.png)
 
 
