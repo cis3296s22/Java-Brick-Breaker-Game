@@ -16,20 +16,39 @@ public class GameBoard extends JPanel {
     private Brick[] bricks;
     private boolean inGame = true;
     int score = 0;
+    JButton pauseButton = new JButton("Pause");
+    JButton resumeButton = new JButton("Resume");
+    JButton restartButton = new JButton("Restart");
 
 
     public GameBoard() throws IOException {
+        PauseHandler settingHandler = new PauseHandler();
+        ResumeHandler resumeHandler = new ResumeHandler();
+        RestartHandler restartHandler = new RestartHandler();
+        
 
         initBoard();
+        pauseButton.setBounds(200,300,40,50);
+        resumeButton.setBounds(300,300,40,50);
+        restartButton.setBounds(4,300,40,50);
+        add(pauseButton);
+        add(resumeButton);
+        add(restartButton);
+        pauseButton.addActionListener(settingHandler);
+        resumeButton.addActionListener(resumeHandler);
+        restartButton.addActionListener(restartHandler);
     }
 
     private void initBoard() throws IOException {
 
+    	pauseButton.setFocusable(false);
+    	restartButton.setFocusable(false);
+    	resumeButton.setFocusable(false);
         addKeyListener(new TAdapter());
         setFocusable(true);
         setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
-
         gameInit();
+
     }
 
     private void gameInit() throws IOException {
@@ -87,7 +106,7 @@ public class GameBoard extends JPanel {
 
     private void drawObjects(Graphics2D g2d) throws IOException {
         // Draw current score at top of panel
-        g2d.drawString("Score: " + score, 200, 20);
+        g2d.drawString("Score: " + score, 20, 20);
         g2d.drawImage(ball.getImage(), ball.getX(), ball.getY(),
                 ball.getImageWidth(), ball.getImageHeight(), this);
         g2d.drawImage(racket.getImage(), racket.getX(), racket.getY(),
@@ -163,6 +182,48 @@ public class GameBoard extends JPanel {
 
         inGame = false;
         timer.stop();
+    }
+
+    // pause game once click on pause button
+    private class PauseHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            pauseGame();
+        }
+    }
+
+    // method to pause game
+    private void pauseGame(){
+    	timer.stop();
+    }
+
+    private class ResumeHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+            restartGame();
+        }
+    }
+
+
+    private void restartGame(){
+    	timer.stop();
+    	timer = new Timer(Configurations.PERIOD, new GameCycle());
+        timer.start();
+    }
+    
+    private class RestartHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+        	try {
+        		timer.stop();
+        		gameInit();
+        	} catch (IOException er) {
+        		er.printStackTrace();
+        	}
+        }
     }
 
     private void checkCollision() {
