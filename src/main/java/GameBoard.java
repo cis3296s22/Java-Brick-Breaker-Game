@@ -20,30 +20,36 @@ public class GameBoard extends JPanel {
     JButton resumeButton = new JButton("Resume");
     JButton restartButton = new JButton("Restart");
 
-
     public GameBoard() throws IOException {
-        PauseHandler settingHandler = new PauseHandler();
-        ResumeHandler resumeHandler = new ResumeHandler();
-        RestartHandler restartHandler = new RestartHandler();
-        
 
         initBoard();
-        pauseButton.setBounds(200,300,40,50);
-        resumeButton.setBounds(300,300,40,50);
-        restartButton.setBounds(4,300,40,50);
-        add(pauseButton);
-        add(resumeButton);
-        add(restartButton);
-        pauseButton.addActionListener(settingHandler);
-        resumeButton.addActionListener(resumeHandler);
-        restartButton.addActionListener(restartHandler);
+
     }
 
     private void initBoard() throws IOException {
 
-    	pauseButton.setFocusable(false);
-    	restartButton.setFocusable(false);
-    	resumeButton.setFocusable(false);
+        PauseHandler settingHandler = new PauseHandler();
+        ResumeHandler resumeHandler = new ResumeHandler();
+        RestartHandler restartHandler = new RestartHandler();
+
+        JPanel buttonPane = new JPanel();
+        buttonPane.setLayout(new GridLayout(0, 2));
+        buttonPane.setPreferredSize(new Dimension(250, 30));
+        JPanel blank = new JPanel();
+        blank.setVisible(false);
+        buttonPane.add(pauseButton);
+        buttonPane.add(restartButton);
+
+        add(buttonPane);
+
+        pauseButton.addActionListener(settingHandler);
+        resumeButton.addActionListener(resumeHandler);
+        restartButton.addActionListener(restartHandler);
+
+        pauseButton.setFocusable(false);
+        restartButton.setFocusable(false);
+        resumeButton.setFocusable(false);
+
         addKeyListener(new TAdapter());
         setFocusable(true);
         setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
@@ -106,7 +112,7 @@ public class GameBoard extends JPanel {
 
     private void drawObjects(Graphics2D g2d) throws IOException {
         // Draw current score at top of panel
-        g2d.drawString("Score: " + score, 20, 20);
+        g2d.drawString("Score: " + score, 130, 390);
         g2d.drawImage(ball.getImage(), ball.getX(), ball.getY(),
                 ball.getImageWidth(), ball.getImageHeight(), this);
         g2d.drawImage(racket.getImage(), racket.getX(), racket.getY(),
@@ -137,7 +143,7 @@ public class GameBoard extends JPanel {
         FileWriter out = new FileWriter("ScoreList.txt", true);
         BufferedWriter bw = new BufferedWriter(out);
 
-        if(score != 0){
+        if (score != 0) {
             bw.write(Integer.toString(score));
             bw.newLine();
         }
@@ -185,7 +191,7 @@ public class GameBoard extends JPanel {
     }
 
     // pause game once click on pause button
-    private class PauseHandler implements ActionListener{
+    private class PauseHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -194,35 +200,45 @@ public class GameBoard extends JPanel {
     }
 
     // method to pause game
-    private void pauseGame(){
-    	timer.stop();
+    private void pauseGame() {
+        Container parent = pauseButton.getParent();
+        parent.add(resumeButton, 0, 0);
+        parent.remove(pauseButton);
+        parent.revalidate();
+        parent.repaint();
+        timer.stop();
     }
 
     private class ResumeHandler implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e){
-            restartGame();
+        public void actionPerformed(ActionEvent e) {
+            resumeGame();
         }
     }
 
-
-    private void restartGame(){
-    	timer.stop();
-    	timer = new Timer(Configurations.PERIOD, new GameCycle());
+    private void resumeGame() {
+        Container parent = resumeButton.getParent();
+        parent.add(pauseButton, 0, 0);
+        parent.remove(resumeButton);
+        parent.revalidate();
+        parent.repaint();
+        timer.stop();
+        timer = new Timer(Configurations.PERIOD, new GameCycle());
         timer.start();
     }
-    
+
     private class RestartHandler implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e){
-        	try {
-        		timer.stop();
-        		gameInit();
-        	} catch (IOException er) {
-        		er.printStackTrace();
-        	}
+        public void actionPerformed(ActionEvent e) {
+            try {
+                inGame = true;
+                timer.stop();
+                gameInit();
+            } catch (IOException er) {
+                er.printStackTrace();
+            }
         }
     }
 
