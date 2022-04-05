@@ -4,8 +4,8 @@ import java.io.IOException;
 
 public class Ball extends Sprite {
 
-    private int xdir;
-    private int ydir;
+    private double xdir;
+    private double ydir;
 
     public Ball() throws IOException {
 
@@ -33,21 +33,34 @@ public class Ball extends Sprite {
         x += xdir;
         y += ydir;
 
-        if (x == 0) {
 
-            setXDir(1);
+        if(x + 2 >= (Configurations.WIDTH)){
+            xdir*=-1;
+            setXDir(xdir);
         }
-
-        if (x == Configurations.WIDTH - imageWidth) {
-
-            System.out.println(imageWidth);
-            setXDir(-1);
+        else if(x <= 0){
+            xdir *= -1;
+            x = xdir;
         }
-
-        if (y == 0) {
-
-            setYDir(1);
+        else if(y <= 0){
+            ydir *= -1;
+            y = ydir;
         }
+//        if (x == 0) {
+//
+//            setXDir(1);
+//        }
+//
+//        if (x == Configurations.WIDTH - imageWidth) {
+//
+//            System.out.println(imageWidth);
+//            setXDir(-1);
+//        }
+//
+//        if (y == 0) {
+//
+//            setYDir(1);
+//        }
     }
 
     private void resetState() {
@@ -56,17 +69,17 @@ public class Ball extends Sprite {
         y = Configurations.INIT_BALL_Y;
     }
 
-    void setXDir(int x) {
+    void setXDir(double x) {
 
         xdir = x;
     }
 
-    void setYDir(int y) {
+    void setYDir(double y) {
 
         ydir = y;
     }
 
-    int getYDir() {
+    double getYDir() {
 
         return ydir;
     }
