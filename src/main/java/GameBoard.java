@@ -16,6 +16,8 @@ public class GameBoard extends JPanel {
     private Brick[] bricks;
     private boolean inGame = true;
     int score = 0;
+    double speed = 1;
+    String speedLevel = "x1";
     JButton pauseButton = new JButton("Pause");
     JButton resumeButton = new JButton("Resume");
     JButton restartButton = new JButton("Restart");
@@ -113,17 +115,18 @@ public class GameBoard extends JPanel {
     private void drawObjects(Graphics2D g2d) throws IOException {
         // Draw current score at top of panel
         g2d.drawString("Score: " + score, 130, 390);
-        g2d.drawImage(ball.getImage(), ball.getX(), ball.getY(),
+        g2d.drawString("Speed: " + speedLevel, 50, 390);
+        g2d.drawImage(ball.getImage(), (int)ball.getX(), (int)ball.getY(),
                 ball.getImageWidth(), ball.getImageHeight(), this);
-        g2d.drawImage(racket.getImage(), racket.getX(), racket.getY(),
+        g2d.drawImage(racket.getImage(), (int)racket.getX(), (int)racket.getY(),
                 racket.getImageWidth(), racket.getImageHeight(), this);
 
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
 
             if (!bricks[i].isDestroyed()) {
 
-                g2d.drawImage(bricks[i].getImage(), bricks[i].getX(),
-                        bricks[i].getY(), bricks[i].getImageWidth(),
+                g2d.drawImage(bricks[i].getImage(), (int)bricks[i].getX(),
+                        (int)bricks[i].getY(), bricks[i].getImageWidth(),
                         bricks[i].getImageHeight(), this);
             }
         }
@@ -249,6 +252,21 @@ public class GameBoard extends JPanel {
             stopGame();
         }
 
+        // Speeds up the ball every time
+        // 5 bricks are destroyed until the 15th destroyed brick
+        if(score >= 5 && score < 10){
+            speed = 1.2;
+            speedLevel = "x1.2";
+        }
+        else if(score >= 10 && score < 15){
+            speed = 1.5;
+            speedLevel = "x1.5";
+        }
+        else if(score >= 15){
+            speed = 2;
+            speedLevel = "x2";
+        }
+
         for (int i = 0, j = 0; i < Configurations.N_OF_BRICKS; i++) {
 
             if (bricks[i].isDestroyed()) {
@@ -275,32 +293,32 @@ public class GameBoard extends JPanel {
 
             if (ballLPos < first) {
 
-                ball.setXDir(-1);
-                ball.setYDir(-1);
+                ball.setXDir(-speed);
+                ball.setYDir(-speed);
             }
 
             if (ballLPos >= first && ballLPos < second) {
 
-                ball.setXDir(-1);
-                ball.setYDir(-1 * ball.getYDir());
+                ball.setXDir(-speed);
+                ball.setYDir(-speed * ball.getYDir());
             }
 
             if (ballLPos >= second && ballLPos < third) {
 
                 ball.setXDir(0);
-                ball.setYDir(-1);
+                ball.setYDir(-speed);
             }
 
             if (ballLPos >= third && ballLPos < fourth) {
 
-                ball.setXDir(1);
-                ball.setYDir(-1 * ball.getYDir());
+                ball.setXDir(speed);
+                ball.setYDir(-speed * ball.getYDir());
             }
 
             if (ballLPos > fourth) {
 
-                ball.setXDir(1);
-                ball.setYDir(-1);
+                ball.setXDir(speed);
+                ball.setYDir(-speed);
             }
         }
 
@@ -321,18 +339,18 @@ public class GameBoard extends JPanel {
 
                     if (bricks[i].getRect().contains(pointRight)) {
 
-                        ball.setXDir(-1);
+                        ball.setXDir(-speed);
                     } else if (bricks[i].getRect().contains(pointLeft)) {
 
-                        ball.setXDir(1);
+                        ball.setXDir(speed);
                     }
 
                     if (bricks[i].getRect().contains(pointTop)) {
 
-                        ball.setYDir(1);
+                        ball.setYDir(speed);
                     } else if (bricks[i].getRect().contains(pointBottom)) {
 
-                        ball.setYDir(-1);
+                        ball.setYDir(-speed);
                     }
 
                     bricks[i].setDestroyed(true);
