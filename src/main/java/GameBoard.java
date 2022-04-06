@@ -10,7 +10,7 @@ import java.io.*;
 public class GameBoard extends JPanel {
 
     private Timer timer;
-    private String message = "Game Over";
+    private String message = "Game Over!";
     private Ball ball;
     public Racket racket;
     private Brick[] bricks;
@@ -22,6 +22,8 @@ public class GameBoard extends JPanel {
     JButton resumeButton = new JButton("Resume");
     JButton restartButton = new JButton("Restart");
     boolean restartClicked = false;
+
+    public int livesLeft;
 
     public GameBoard() throws IOException {
 
@@ -69,6 +71,8 @@ public class GameBoard extends JPanel {
 
         int k = 0;
 
+        livesLeft = 3;
+
         for (int i = 0; i < 5; i++) {
 
             for (int j = 0; j < 6; j++) {
@@ -115,7 +119,7 @@ public class GameBoard extends JPanel {
 
     private void drawObjects(Graphics2D g2d) throws IOException {
         // Draw current score at top of panel
-        g2d.drawString("Score: " + score, 130, 390);
+        g2d.drawString("Score: " + score + "  Lives: " + livesLeft, 130, 390);
 
         if(restartClicked){
             speed = 1;
@@ -183,11 +187,15 @@ public class GameBoard extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            doGameCycle();
+            try {
+                doGameCycle();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 
-    private void doGameCycle() {
+    private void doGameCycle() throws IOException {
 
         ball.move();
         racket.move();
@@ -195,10 +203,22 @@ public class GameBoard extends JPanel {
         repaint();
     }
 
-    private void stopGame() {
+    private void stopGame() throws IOException {
 
-        inGame = false;
+        livesLeft--;
+
+        if(livesLeft == 0) {
+            inGame = false;
+            timer.stop();
+        }
+
+        ball = new Ball();
+        racket = new Racket();
+
         timer.stop();
+        timer = new Timer(Configurations.PERIOD, new GameCycle());
+        timer.start();
+
     }
 
     // pause game once click on pause button
@@ -254,7 +274,7 @@ public class GameBoard extends JPanel {
         }
     }
 
-    private void checkCollision() {
+    private void checkCollision() throws IOException {
 
         if (ball.getRect().getMaxY() > Configurations.BOTTOM_EDGE) {
 
