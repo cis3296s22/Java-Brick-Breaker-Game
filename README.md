@@ -39,7 +39,8 @@ java BrickBreaker
 # UML
 ![image](https://user-images.githubusercontent.com/89605166/160741478-9e21a3fe-639c-41a0-b2f4-9af7b0143d39.png)
 ![image](https://user-images.githubusercontent.com/89605166/160741483-c92232b9-dfb7-4899-91d0-a8b93b060bb6.png)
-![image](https://user-images.githubusercontent.com/77736858/161879447-8809d9c4-3985-40b9-a860-c0178a79a625.png)
+![image](https://user-images.githubusercontent.com/77736858/161879611-bf3b140a-a044-4f81-899d-d73e025acd6f.png)
+
 
 figure 3 updated on April 5, 22
 
