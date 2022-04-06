@@ -231,6 +231,12 @@ public class GameBoard extends JPanel {
         if (ball.getRect().getMaxY() > Configurations.BOTTOM_EDGE) {
 
             stopGame();
+
+        }
+
+        // Game end when ball hit the top edge
+        if (ball.getRect().getMaxY() < Configurations.TOP_EDGE){
+            stopGame();
         }
 
         for (int i = 0, j = 0; i < Configurations.N_OF_BRICKS; i++) {
