@@ -21,6 +21,7 @@ public class GameBoard extends JPanel {
     JButton pauseButton = new JButton("Pause");
     JButton resumeButton = new JButton("Resume");
     JButton restartButton = new JButton("Restart");
+    boolean restartClicked = false;
 
     public GameBoard() throws IOException {
 
@@ -115,6 +116,13 @@ public class GameBoard extends JPanel {
     private void drawObjects(Graphics2D g2d) throws IOException {
         // Draw current score at top of panel
         g2d.drawString("Score: " + score, 130, 390);
+
+        if(restartClicked){
+            speed = 1;
+            speedLevel = "x1";
+            restartClicked = false;
+        }
+
         g2d.drawString("Speed: " + speedLevel, 50, 390);
         g2d.drawImage(ball.getImage(), (int)ball.getX(), (int)ball.getY(),
                 ball.getImageWidth(), ball.getImageHeight(), this);
@@ -236,6 +244,7 @@ public class GameBoard extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                restartClicked = true;
                 inGame = true;
                 timer.stop();
                 gameInit();
