@@ -252,6 +252,9 @@ public class GameBoard extends JPanel {
             stopGame();
         }
 
+        // game over when the ball hit the top edge
+        if(ball.getRect().getMaxY() < Configurations.TOP_EDGE){stopGame();}
+
         // Speeds up the ball every time
         // 5 bricks are destroyed until the 15th destroyed brick
         if(score >= 5 && score < 10){
