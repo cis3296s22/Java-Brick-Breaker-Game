@@ -1,30 +1,34 @@
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 public class Sprite {
 
-    int x;
-    int y;
+//    int x;
+//    int y;
+    double x;
+    double y;
     int imageWidth;
     int imageHeight;
     Image image;
+    Rectangle2D rectangle2D = new Rectangle2D.Double();
 
-    protected void setX(int x) {
+    protected void setX(double x) {
 
         this.x = x;
     }
 
-    int getX() {
+    double getX() {
 
         return x;
     }
 
-    protected void setY(int y) {
+    protected void setY(double y) {
 
         this.y = y;
     }
 
-    int getY() {
+    double getY() {
 
         return y;
     }
@@ -44,10 +48,12 @@ public class Sprite {
         return image;
     }
 
-    Rectangle getRect() {
+    Rectangle2D getRect() {
+        rectangle2D.setRect(x, y, image.getWidth(null), image.getHeight(null));
 
-        return new Rectangle(x, y,
-                image.getWidth(null), image.getHeight(null));
+        return rectangle2D;
+//        return new Rectangle(x, y,
+//                image.getWidth(null), image.getHeight(null));
     }
 
     void getImageDimensions() {
