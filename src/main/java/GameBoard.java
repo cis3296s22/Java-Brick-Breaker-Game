@@ -281,6 +281,7 @@ public class GameBoard extends JPanel {
             stopGame();
         }
 
+		
         // game over when the ball hit the top edge
         if(ball.getRect().getMaxY() < Configurations.TOP_EDGE){stopGame();}
 
@@ -298,6 +299,14 @@ public class GameBoard extends JPanel {
             speed = 2;
             speedLevel = "x2";
         }
+		
+		// Count number of cement bricks so that we can end the game when only cement bricks are left
+		int count = 0;
+		for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
+			if (!bricks[i].isCement()) {
+				count++;
+			}
+		}
 
         for (int i = 0, j = 0; i < Configurations.N_OF_BRICKS; i++) {
 
@@ -306,7 +315,7 @@ public class GameBoard extends JPanel {
             }
             //added score keeper
             score = j;
-            if (j == Configurations.N_OF_BRICKS) {
+            if (j == count) {
 
                 message = "Victory";
                 stopGame();
@@ -385,7 +394,7 @@ public class GameBoard extends JPanel {
                         ball.setYDir(-speed);
                     }
 
-                    bricks[i].setDestroyed(true);
+                    bricks[i].doDamage();
                 }
             }
         }
