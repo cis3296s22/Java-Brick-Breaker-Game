@@ -1,3 +1,4 @@
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +61,6 @@ public class GameBoard extends JPanel {
         System.out.println(color);
         fr.close();
         br.close();
-
 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new GridLayout(0, 2));
@@ -153,24 +153,24 @@ public class GameBoard extends JPanel {
         // Draw current score at bottom of panel
         g2d.drawString("Score: " + score, 120, 390);
         g2d.drawString("Lives: " + livesLeft, 230, 390);
-        if(restartClicked){
+        if (restartClicked) {
             speed = 1;
             speedLevel = "x1";
             restartClicked = false;
         }
 
         g2d.drawString("Speed: " + speedLevel, 10, 390);
-        g2d.drawImage(ball.getImage(), (int)ball.getX(), (int)ball.getY(),
+        g2d.drawImage(ball.getImage(), (int) ball.getX(), (int) ball.getY(),
                 ball.getImageWidth(), ball.getImageHeight(), this);
-        g2d.drawImage(racket.getImage(), (int)racket.getX(), (int)racket.getY(),
+        g2d.drawImage(racket.getImage(), (int) racket.getX(), (int) racket.getY(),
                 racket.getImageWidth(), racket.getImageHeight(), this);
 
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
 
             if (!bricks[i].isDestroyed()) {
 
-                g2d.drawImage(bricks[i].getImage(), (int)bricks[i].getX(),
-                        (int)bricks[i].getY(), bricks[i].getImageWidth(),
+                g2d.drawImage(bricks[i].getImage(), (int) bricks[i].getX(),
+                        (int) bricks[i].getY(), bricks[i].getImageWidth(),
                         bricks[i].getImageHeight(), this);
             }
         }
@@ -239,7 +239,7 @@ public class GameBoard extends JPanel {
 
         livesLeft--;
 
-        if(livesLeft == 0) {
+        if (livesLeft == 0) {
             inGame = false;
             timer.stop();
         }
@@ -316,21 +316,29 @@ public class GameBoard extends JPanel {
         }
 
         // game over when the ball hit the top edge
-        if(ball.getRect().getMaxY() < Configurations.TOP_EDGE){stopGame();}
+        if (ball.getRect().getMaxY() < Configurations.TOP_EDGE) {
+            stopGame();
+        }
 
         // Speeds up the ball every time
         // 5 bricks are destroyed until the 15th destroyed brick
-        if(score >= 5 && score < 10){
+        if (score >= 5 && score < 10) {
             speed = 1.2;
             speedLevel = "x1.2";
-        }
-        else if(score >= 10 && score < 15){
+        } else if (score >= 10 && score < 15) {
             speed = 1.5;
             speedLevel = "x1.5";
-        }
-        else if(score >= 15){
+        } else if (score >= 15) {
             speed = 2;
             speedLevel = "x2";
+        }
+
+        // Count number of cement bricks so that we can end the game when only cement bricks are left
+        int count = 0;
+        for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
+            if (!bricks[i].isCement()) {
+                count++;
+            }
         }
 
         for (int i = 0, j = 0; i < Configurations.N_OF_BRICKS; i++) {
@@ -340,7 +348,7 @@ public class GameBoard extends JPanel {
             }
             //added score keeper
             score = j;
-            if (j == Configurations.N_OF_BRICKS) {
+            if (j == count) {
 
                 message = "Victory";
                 stopGame();
@@ -419,7 +427,7 @@ public class GameBoard extends JPanel {
                         ball.setYDir(-speed);
                     }
 
-                    bricks[i].setDestroyed(true);
+                    bricks[i].doDamage();
                 }
             }
         }
