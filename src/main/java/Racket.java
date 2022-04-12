@@ -7,22 +7,27 @@ public class Racket extends Sprite  {
 
     private int dx;
 
-    public Racket() throws IOException {
+    public Racket(int racket) throws IOException {
 
-        initRacket();
+        initRacket(racket);
     }
 
-    private void initRacket() throws IOException {
+    private void initRacket(int racket) throws IOException {
 
-        loadImage();
+        loadImage(racket);
         getImageDimensions();
 
         resetState();
     }
 
-    private void loadImage() throws IOException {
+    private void loadImage(int racket) throws IOException {
 
-        var ii = new ImageIcon(ImageIO.read(Racket.class.getResource("/images/paddle.png")));
+        ImageIcon ii;
+        if (racket == 0) {
+            ii = new ImageIcon(ImageIO.read(Racket.class.getResource("/images/paddle.png")));
+        } else {
+            ii = new ImageIcon(ImageIO.read(Racket.class.getResource("/images/longPaddle.png")));
+        }
         image = ii.getImage();
     }
 
@@ -47,12 +52,12 @@ public class Racket extends Sprite  {
 
         if (key == KeyEvent.VK_LEFT) {
 
-            dx = -1;
+            dx = -2;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
-            dx = 1;
+            dx = 2;
         }
     }
 

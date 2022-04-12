@@ -8,6 +8,8 @@ public class Brick extends Sprite
     private boolean destroyed;
 	private int health;
 	private boolean cement;
+	private boolean shortenPaddle;
+	private boolean lengthenPaddle;
 
     public Brick(int x, int y) throws IOException {
 
@@ -21,6 +23,8 @@ public class Brick extends Sprite
 
         destroyed = false;
 		cement = false;
+		shortenPaddle = false;
+		lengthenPaddle = false;
 		health = 1;
 		
 		loadImage(0);
@@ -36,6 +40,12 @@ public class Brick extends Sprite
 			cement = true;
 			loadImage(3);
 			getImageDimensions();
+		} else if (random < 5) {
+			shortenPaddle = true;
+			loadImage(4);
+		} else if (random >= 5 && random < 10) {
+			lengthenPaddle = true;
+			loadImage(4);
 		}
 		
     }
@@ -53,6 +63,9 @@ public class Brick extends Sprite
 			image = ii.getImage();
  		} else if (index == 3) {
 			var ii = new ImageIcon(ImageIO.read(Brick.class.getResource("/images/cement.png")));
+			image = ii.getImage();
+		} else if (index == 4){
+			var ii = new ImageIcon(ImageIO.read(Brick.class.getResource("/images/itemBrick.png")));
 			image = ii.getImage();
 		} else {
 			System.out.println("Bad index passed to Brick loadImage");
@@ -97,5 +110,13 @@ public class Brick extends Sprite
 
         return destroyed;
     }
+
+    boolean shortenItem() {
+    	return shortenPaddle;
+	}
+
+	boolean lengthenItem() {
+    	return lengthenPaddle;
+	}
 
 }
