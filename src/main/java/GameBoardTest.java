@@ -24,7 +24,7 @@ public class GameBoardTest {
     @Test
     public void scoreIncrementsAfterBrickDestroyed() throws IOException {
         int score;
-        gb.bricks[0].setDestroyed(true);
+        gb.bricks[0].doDamage();
         gb.checkCollision();
         score = gb.score;
         assertEquals("Score should be 1 after 1 brick destroyed", 1, score);
