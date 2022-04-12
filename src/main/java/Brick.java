@@ -41,7 +41,7 @@ public class Brick extends Sprite
 			cement = true;
 			loadImage(3);
 			getImageDimensions();
-		} else if (random < 50) {
+		} else if (random < 10) {
 			containsItem = true;
 			loadImage(4);
 		}
