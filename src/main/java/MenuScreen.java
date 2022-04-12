@@ -8,6 +8,7 @@ import java.io.IOException;
 public class MenuScreen extends JPanel {
     JButton StartButton = new JButton("Start Game");
     JButton HSButton = new JButton("High Scores");
+    JButton ThemeButton = new JButton("Change Theme");
 
     public MenuScreen(){
         initMenu();
@@ -20,12 +21,16 @@ public class MenuScreen extends JPanel {
         setLayout(null);
         StartButton.setBounds((Configurations.WIDTH - 120) / 2, 100, 120, 40);
         HSButton.setBounds((Configurations.WIDTH - 120) / 2, 150, 120, 40);
+        ThemeButton.setBounds((Configurations.WIDTH - 120) / 2, 200, 120, 40);
         add(StartButton);
         add(HSButton);
+        add(ThemeButton);
         StartHandler stHandler = new StartHandler();
         StartButton.addActionListener(stHandler);
         HSHandler hsHandler = new HSHandler();
         HSButton.addActionListener(hsHandler);
+        ThemeHandler THandler = new ThemeHandler();
+        ThemeButton.addActionListener(THandler);
     }
 
     //Click listener for Start Button
@@ -42,7 +47,7 @@ public class MenuScreen extends JPanel {
                 gameBoard.requestFocusInWindow();
                 remove(HSButton);
                 remove(StartButton);
-
+                remove(ThemeButton);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -63,7 +68,30 @@ public class MenuScreen extends JPanel {
                 hsBoard.requestFocusInWindow();
                 remove(HSButton);
                 remove(StartButton);
+                remove(ThemeButton);
             } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+    }
+
+    //Click Listener for High score button
+    private class ThemeHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                setLayout(new BorderLayout());
+                revalidate();
+                repaint();
+                ThemeMenu TMenu = new ThemeMenu();
+                add(TMenu);
+                TMenu.requestFocusInWindow();
+                remove(HSButton);
+                remove(StartButton);
+                remove(ThemeButton);
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
 

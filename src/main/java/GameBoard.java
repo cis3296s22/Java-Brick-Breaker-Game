@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,6 +7,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.*;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class GameBoard extends JPanel {
 
@@ -13,7 +16,7 @@ public class GameBoard extends JPanel {
     private String message = "Game Over!";
     private Ball ball;
     public Racket racket;
-    private Brick[] bricks;
+    public Brick[] bricks;
     private boolean inGame = true;
     int score = 0;
     double speed = 1;
@@ -36,6 +39,28 @@ public class GameBoard extends JPanel {
         PauseHandler settingHandler = new PauseHandler();
         ResumeHandler resumeHandler = new ResumeHandler();
         RestartHandler restartHandler = new RestartHandler();
+
+        //Read from BackGroundColor.txt to get background color
+        FileReader fr = new FileReader("BackGroundColor.txt");
+        BufferedReader br = new BufferedReader(fr);
+        String color = br.readLine();
+
+        // Read Color object String and convert to Color object
+        final Scanner scan = new Scanner(color);
+        scan.useDelimiter("(r|\\,g|\\,b)=|\\]").next(); //Use proper delimiter and ignore first part (which is the class name)
+        final int r, g, b;
+        //Verify RGB Values
+        System.out.println(r = scan.nextInt());
+        System.out.println(g = scan.nextInt());
+        System.out.println(b = scan.nextInt());
+
+        Color c = new Color(r, g, b);
+        setBackground(c);
+
+        System.out.println(color);
+        fr.close();
+        br.close();
+
 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new GridLayout(0, 2));
@@ -91,6 +116,8 @@ public class GameBoard extends JPanel {
         super.paintComponent(g);
 
         var g2d = (Graphics2D) g;
+        Image im = new ImageIcon(GameBoard.class.getResource("/images/lava.gif")).getImage();
+        g.drawImage(im, 0, 365, null);
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -118,16 +145,21 @@ public class GameBoard extends JPanel {
     }
 
     private void drawObjects(Graphics2D g2d) throws IOException {
-        // Draw current score at top of panel
-        g2d.drawString("Score: " + score + "  Lives: " + livesLeft, 130, 390);
+        var font = new Font("Verdana", Font.BOLD, 15);
+        FontMetrics fontMetrics = this.getFontMetrics(font);
 
+        g2d.setColor(Color.black);
+        g2d.setFont(font);
+        // Draw current score at bottom of panel
+        g2d.drawString("Score: " + score, 120, 390);
+        g2d.drawString("Lives: " + livesLeft, 230, 390);
         if(restartClicked){
             speed = 1;
             speedLevel = "x1";
             restartClicked = false;
         }
 
-        g2d.drawString("Speed: " + speedLevel, 50, 390);
+        g2d.drawString("Speed: " + speedLevel, 10, 390);
         g2d.drawImage(ball.getImage(), (int)ball.getX(), (int)ball.getY(),
                 ball.getImageWidth(), ball.getImageHeight(), this);
         g2d.drawImage(racket.getImage(), (int)racket.getX(), (int)racket.getY(),
@@ -264,6 +296,8 @@ public class GameBoard extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                speed = 1;
+                speedLevel = "x1";
                 restartClicked = true;
                 inGame = true;
                 timer.stop();
@@ -274,7 +308,7 @@ public class GameBoard extends JPanel {
         }
     }
 
-    private void checkCollision() throws IOException {
+    public void checkCollision() throws IOException {
 
         if (ball.getRect().getMaxY() > Configurations.BOTTOM_EDGE) {
 
