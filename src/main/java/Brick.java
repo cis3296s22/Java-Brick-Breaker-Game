@@ -8,8 +8,7 @@ public class Brick extends Sprite
     private boolean destroyed;
 	private int health;
 	private boolean cement;
-	private boolean shortenPaddle;
-	private boolean lengthenPaddle;
+	private boolean containsItem;
 
     public Brick(int x, int y) throws IOException {
 
@@ -23,9 +22,11 @@ public class Brick extends Sprite
 
         destroyed = false;
 		cement = false;
-		shortenPaddle = false;
-		lengthenPaddle = false;
 		health = 1;
+
+		//boolean for item drop bricks
+		containsItem = false;
+
 		
 		loadImage(0);
         getImageDimensions();
@@ -40,11 +41,8 @@ public class Brick extends Sprite
 			cement = true;
 			loadImage(3);
 			getImageDimensions();
-		} else if (random < 5) {
-			shortenPaddle = true;
-			loadImage(4);
-		} else if (random >= 5 && random < 10) {
-			lengthenPaddle = true;
+		} else if (random < 50) {
+			containsItem = true;
 			loadImage(4);
 		}
 		
@@ -111,12 +109,9 @@ public class Brick extends Sprite
         return destroyed;
     }
 
-    boolean shortenItem() {
-    	return shortenPaddle;
+    boolean hasItem() {
+    	return containsItem;
 	}
 
-	boolean lengthenItem() {
-    	return lengthenPaddle;
-	}
 
 }

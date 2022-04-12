@@ -17,7 +17,7 @@ public class GameBoard extends JPanel {
     private item drop;
     private boolean inGame = true;
     private boolean itemDrop;
-    private int racketType = 0;
+    public int racketType = 0;
     int score = 0;
     double speed = 1;
     String speedLevel = "x1";
@@ -125,10 +125,13 @@ public class GameBoard extends JPanel {
         g2d.drawString("Score: " + score + "  Lives: " + livesLeft, 130, 390);
 
         if(restartClicked){
+            racketType = 0;
             speed = 1;
             speedLevel = "x1";
+            itemDrop = false;
             restartClicked = false;
-            racketType = 0;
+            racket = new Racket(racketType);
+
         }
 
         g2d.drawString("Speed: " + speedLevel, 50, 390);
@@ -380,11 +383,24 @@ public class GameBoard extends JPanel {
 
         //check if the user caught a dropped item
         if (itemDrop && (drop.getRect()).intersects(racket.getRect())) {
+            int random = (int) (Math.random() * 100) + 1;
 
-            racketType = 1;
-            //reset dropped item back to false
-            itemDrop= false;
+            //case 1: lengthen paddle
+            if(random < 50) {
+                racketType = 1;
+            }
+            //case 2: shorten paddle
+            else {
+                racketType = 2;
+            }
 
+            //have new racket appear under ball
+            double temp = ball.x;
+            racket = new Racket(racketType);
+            racket.x = temp;
+
+            //reset itemDrop condition
+            itemDrop = false;
 
         }
 
@@ -420,7 +436,7 @@ public class GameBoard extends JPanel {
                     }
 
                     //if it should drop a shorten item
-                    if(bricks[i].shortenItem() || bricks[i].lengthenItem()) {
+                    if(bricks[i].hasItem()) {
                         itemDrop = true;
                         drop = new item(bricks[i].x, bricks[i].y);
 
