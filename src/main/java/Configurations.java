@@ -9,5 +9,7 @@ public interface Configurations
     int INIT_PADDLE_Y = 360;
     int INIT_BALL_X = 230;
     int INIT_BALL_Y = 355;
+    int INIT_ITEM_X = 200;
+    int INIT_ITEM_Y = 360;
     int PERIOD = 10;
 }
