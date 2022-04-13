@@ -41,33 +41,54 @@ public class Racket extends Sprite  {
         }
     }
 
-    void keyPressed(KeyEvent e) {
-
+    void keyPressed(KeyEvent e, int select) {
         int key = e.getKeyCode();
+        if (select == 0){
+            if (key == KeyEvent.VK_LEFT) {
 
-        if (key == KeyEvent.VK_LEFT) {
+                dx = -1;
+            }
 
-            dx = -1;
-        }
+            if (key == KeyEvent.VK_RIGHT) {
 
-        if (key == KeyEvent.VK_RIGHT) {
+                dx = 1;
+            }
+        }else {
+            if (key == KeyEvent.VK_A) {
 
-            dx = 1;
+                dx = -1;
+            }
+
+            if (key == KeyEvent.VK_D) {
+
+                dx = 1;
+            }
         }
     }
 
-    void keyReleased(KeyEvent e) {
+    void keyReleased(KeyEvent e, int select) {
 
         int key = e.getKeyCode();
+        if(select == 0) {
+            if (key == KeyEvent.VK_LEFT) {
 
-        if (key == KeyEvent.VK_LEFT) {
+                dx = 0;
+            }
 
-            dx = 0;
-        }
+            if (key == KeyEvent.VK_RIGHT) {
 
-        if (key == KeyEvent.VK_RIGHT) {
+                dx = 0;
+            }
+        }else{
+            if (key == KeyEvent.VK_A) {
 
-            dx = 0;
+                dx = 0;
+            }
+
+            if (key == KeyEvent.VK_D) {
+
+                dx = 0;
+            }
         }
     }
 
