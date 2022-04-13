@@ -17,6 +17,9 @@ public class GameBoard extends JPanel {
     private Ball ball;
     public Racket racket;
     public Brick[] bricks;
+    private item drop;
+    private boolean itemDrop;
+    public int racketType = 0;
     private boolean inGame = true;
     int score = 0;
     double speed = 1;
@@ -103,7 +106,7 @@ public class GameBoard extends JPanel {
         bricks = new Brick[Configurations.N_OF_BRICKS];
 
         ball = new Ball();
-        racket = new Racket();
+        racket = new Racket(racketType);
 
         int k = 0;
 
@@ -164,10 +167,14 @@ public class GameBoard extends JPanel {
         // Draw current score at bottom of panel
         g2d.drawString("Score: " + score, 120, 390);
         g2d.drawString("Lives: " + livesLeft, 230, 390);
+
         if(restartClicked){
+            racketType = 0;
             speed = 1;
             speedLevel = "x1";
+            itemDrop = false;
             restartClicked = false;
+            racket = new Racket(racketType);
         }
 
         g2d.drawString("Speed: " + speedLevel, 10, 390);
@@ -175,6 +182,11 @@ public class GameBoard extends JPanel {
                 ball.getImageWidth(), ball.getImageHeight(), this);
         g2d.drawImage(racket.getImage(), (int)racket.getX(), (int)racket.getY(),
                 racket.getImageWidth(), racket.getImageHeight(), this);
+
+        if(itemDrop) {
+            g2d.drawImage(drop.getImage(), (int)drop.getX(), (int)drop.getY(),
+                    drop.getImageWidth(), drop.getImageHeight(), this);
+        }
 
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
 
@@ -242,6 +254,12 @@ public class GameBoard extends JPanel {
 
         ball.move();
         racket.move();
+        if(itemDrop) {
+            drop.move();
+            if (drop.y > Configurations.INIT_PADDLE_Y) {
+                itemDrop = false;
+            }
+        }
         checkCollision();
         repaint();
     }
@@ -249,14 +267,15 @@ public class GameBoard extends JPanel {
     private void stopGame() throws IOException {
 
         livesLeft--;
-
+        itemDrop = false;
+        racketType = 0;
         if(livesLeft == 0) {
             inGame = false;
             timer.stop();
         }
 
         ball = new Ball();
-        racket = new Racket();
+        racket = new Racket(racketType);
 
         timer.stop();
         timer = new Timer(Configurations.PERIOD, new GameCycle());
@@ -434,6 +453,29 @@ public class GameBoard extends JPanel {
             }
         }
 
+        //check if the user caught a dropped item
+        if (itemDrop && (drop.getRect()).intersects(racket.getRect())) {
+            int random = (int) (Math.random() * 100) + 1;
+
+            //case 1: lengthen paddle
+            if(random < 50) {
+                racketType = 1;
+            }
+            //case 2: shorten paddle
+            else {
+                racketType = 2;
+            }
+
+            //have new racket appear under ball
+            double temp = ball.x;
+            racket = new Racket(racketType);
+            racket.x = temp;
+
+            //reset itemDrop condition
+            itemDrop = false;
+
+        }
+
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
 
             if ((ball.getRect()).intersects(bricks[i].getRect())) {
@@ -463,6 +505,12 @@ public class GameBoard extends JPanel {
                     } else if (bricks[i].getRect().contains(pointBottom)) {
 
                         ball.setYDir(-speed);
+                    }
+
+                    //if it should drop an item
+                    if(bricks[i].hasItem()) {
+                        itemDrop = true;
+                        drop = new item(bricks[i].x, bricks[i].y);
                     }
 
                     bricks[i].doDamage();
