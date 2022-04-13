@@ -329,9 +329,8 @@ public class GameBoard extends JPanel {
     }
     private void selectArrowKey(){
         Container key = arrowButton.getParent();
-        key.add(aswdButton, 0, 0);
+        key.add(aswdButton,3);
         key.remove(arrowButton);
-        key.getComponentAt(250,30);
         key.revalidate();
         key.repaint();
     }
@@ -347,7 +346,7 @@ public class GameBoard extends JPanel {
 
     private void selectASWDKey(){
         Container key = aswdButton.getParent();
-        key.add(arrowButton, 0, 0);
+        key.add(arrowButton, 0, 3);
         key.remove(aswdButton);
         key.getComponentAt(250,30);
         key.revalidate();
