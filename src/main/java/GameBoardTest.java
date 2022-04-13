@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.platform.commons.annotation.Testable;
 
 import java.awt.*;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class GameBoardTest {
     @Test
     public void scoreIncrementsAfterBrickDestroyed() throws IOException {
         int score;
-        gb.bricks[0].doDamage();
+        gb.bricks[1].doDamage();
         gb.checkCollision();
         score = gb.score;
         assertEquals("Score should be 1 after 1 brick destroyed", 1, score);
@@ -67,5 +68,18 @@ public class GameBoardTest {
         gb.restartButton.doClick();
 
         assertEquals(1, gb.speed, "Should be 1");
+    }
+
+    @Test
+    public void switchToASWDKeyboard() throws IOException{
+        gb.aswdButton.doClick();
+        assertEquals(1,gb.keySelect,"Value should be 1 and switch into ASWD Keyboard");
+    }
+
+    @Test
+    public void switchFromASWDKeyboardToArrowKeyboard() throws IOException{
+        gb.aswdButton.doClick();
+        gb.arrowButton.doClick();
+        assertEquals(0,gb.keySelect,"value should be 0 and switch to arrow keyboard.");
     }
 }
