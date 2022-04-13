@@ -8,6 +8,7 @@ public class Brick extends Sprite
     private boolean destroyed;
     private int health;
     private boolean cement;
+    private boolean containsItem;
 
     public Brick(int x, int y) throws IOException {
 
@@ -23,6 +24,9 @@ public class Brick extends Sprite
         cement = false;
         health = 1;
 
+        //boolean for item drop bricks
+        containsItem = false;
+
         loadImage(0);
         getImageDimensions();
 
@@ -36,6 +40,9 @@ public class Brick extends Sprite
             cement = true;
             loadImage(3);
             getImageDimensions();
+        } else if (random < 10) {
+            containsItem = true;
+            loadImage(4);
         }
     }
 
@@ -53,7 +60,10 @@ public class Brick extends Sprite
         } else if (index == 3) {
             var ii = new ImageIcon(ImageIO.read(Brick.class.getResource("/images/cement.png")));
             image = ii.getImage();
-        } else {
+        } else if (index == 4){
+            var ii = new ImageIcon(ImageIO.read(Brick.class.getResource("/images/itemBrick.png")));
+            image = ii.getImage();
+        }else {
             System.out.println("Bad index passed to Brick loadImage");
         }
 
@@ -94,6 +104,10 @@ public class Brick extends Sprite
     boolean isDestroyed() {
 
         return destroyed;
+    }
+
+    boolean hasItem() {
+        return containsItem;
     }
 
 }
