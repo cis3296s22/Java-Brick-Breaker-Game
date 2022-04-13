@@ -419,7 +419,7 @@ public class GameBoard extends JPanel {
                         ball.setYDir(-speed);
                     }
 
-                    bricks[i].setDestroyed(true);
+                    bricks[i].doDamage();
                 }
             }
         }
