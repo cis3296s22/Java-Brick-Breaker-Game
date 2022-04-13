@@ -25,6 +25,9 @@ public class GameBoard extends JPanel {
     JButton resumeButton = new JButton("Resume");
     JButton restartButton = new JButton("Restart");
     boolean restartClicked = false;
+    JButton arrowButton = new JButton("Arrow");
+    JButton aswdButton = new JButton("ASWD");
+    int keySelect = 0;
 
     public int livesLeft;
 
@@ -39,6 +42,9 @@ public class GameBoard extends JPanel {
         PauseHandler settingHandler = new PauseHandler();
         ResumeHandler resumeHandler = new ResumeHandler();
         RestartHandler restartHandler = new RestartHandler();
+        ArrowKeyHandler arrowKeyHandler = new ArrowKeyHandler();
+        ASWDKeyHandler aswdKeyHandler = new ASWDKeyHandler();
+
 
         //Read from BackGroundColor.txt to get background color
         FileReader fr = new FileReader("BackGroundColor.txt");
@@ -63,22 +69,29 @@ public class GameBoard extends JPanel {
 
 
         JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new GridLayout(0, 2));
+        buttonPane.setLayout(new GridLayout(0, 3));
         buttonPane.setPreferredSize(new Dimension(250, 30));
         JPanel blank = new JPanel();
         blank.setVisible(false);
         buttonPane.add(pauseButton);
         buttonPane.add(restartButton);
+        buttonPane.add(aswdButton);
+
 
         add(buttonPane);
 
         pauseButton.addActionListener(settingHandler);
         resumeButton.addActionListener(resumeHandler);
         restartButton.addActionListener(restartHandler);
+        arrowButton.addActionListener(arrowKeyHandler);
+        aswdButton.addActionListener(aswdKeyHandler);
 
         pauseButton.setFocusable(false);
         restartButton.setFocusable(false);
         resumeButton.setFocusable(false);
+        arrowButton.setFocusable(false);
+        aswdButton.setFocusable(false);
+
 
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -204,13 +217,13 @@ public class GameBoard extends JPanel {
         @Override
         public void keyReleased(KeyEvent e) {
 
-            racket.keyReleased(e);
+            racket.keyReleased(e,keySelect);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
 
-            racket.keyPressed(e);
+            racket.keyPressed(e,keySelect);
         }
     }
 
@@ -289,6 +302,41 @@ public class GameBoard extends JPanel {
         timer.stop();
         timer = new Timer(Configurations.PERIOD, new GameCycle());
         timer.start();
+    }
+
+    private class ArrowKeyHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            selectArrowKey();
+            --keySelect;
+        }
+    }
+    private void selectArrowKey(){
+        Container key = arrowButton.getParent();
+        key.add(aswdButton, 0, 0);
+        key.remove(arrowButton);
+        key.getComponentAt(250,30);
+        key.revalidate();
+        key.repaint();
+    }
+
+    private class ASWDKeyHandler implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            selectASWDKey();
+            ++keySelect;
+        }
+    }
+
+    private void selectASWDKey(){
+        Container key = aswdButton.getParent();
+        key.add(arrowButton, 0, 0);
+        key.remove(aswdButton);
+        key.getComponentAt(250,30);
+        key.revalidate();
+        key.repaint();
     }
 
     private class RestartHandler implements ActionListener {
