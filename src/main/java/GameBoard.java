@@ -460,6 +460,9 @@ public class GameBoard extends JPanel {
             if(random < 50) {
                 racketType = 1;
             }
+            else if(random > 50 && random < 80){
+                livesLeft++;
+            }
             //case 2: shorten paddle
             else {
                 racketType = 2;
