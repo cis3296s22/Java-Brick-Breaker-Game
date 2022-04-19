@@ -1,11 +1,15 @@
 # Java Brick Breaker Game
-Java Brick Breaker Game is a game application that involves hand-eye coordination and quick thinking from the user. The goal of the game is to break all of the “bricks” that appear at the top of the game window using a “ball” and a “paddle” without letting the ball reach the bottom of the window. Once the user presses a start button, a circular entity representing the ball will start moving down the screen. The user can control the racket by moving it either left or right using the two arrow-key buttons on the keyboard. If timed correctly, the racket can reverse the ball’s direction if it touches it, making it go towards the bricks. If the ball manages to touch a brick, the brick will disappear and the ball will be deflected back towards the bottom of the screen. At the top of the window, there is also a score value that increments as a brick is obliterated. If the ball slips past the racket, or if the player successfully hits all bricks, the score will be shown on the middle of the screen and displaying either a win or lose. Levels will become progressively difficult as the player breaks all of the bricks.
+Java Brick Breaker Game is a game application that involves hand-eye coordination and quick thinking from the user. The goal of the game is to break all of the “bricks” that appear at the top of the game window using a “ball” and a “paddle” without letting the ball reach the bottom of the window. Once the user presses a start button, a circular entity representing the ball will start moving down the screen. The user can control the racket by moving it either left or right using the two arrow-key buttons on the keyboard. If timed correctly, the racket can reverse the ball’s direction if it touches it, making it go towards the bricks. If the ball manages to touch a brick, the brick will either fully disappear or crack (indicating another hit needed to clear the brick). Some bricks are made of "steel" and will never break, others have star and indicated that the brick will drop an item if cleared. An item drop will either alter the size of the paddle, create an additional ball, or give the user an additional life. At the top of the window, there is also a score value that increments as a brick is obliterated. If the ball slips past the racket, or if the player successfully hits all bricks, the score will be shown on the middle of the screen and displaying either a win or lose. The game will become progressively difficult as for every 5 bricks cleared the speed of the ball increases.
 This project is built off of an open-source project located in this GitHub Repository by Git-user janbodnar: https://github.com/janbodnar/Java-Breakout-Game
 
-![image](https://user-images.githubusercontent.com/89492718/159178301-99cdba6c-e206-407f-955c-8cdb440b20c3.png)
+![image](https://user-images.githubusercontent.com/89605166/163895961-e73f825f-a7ba-4d85-86c3-989a5faa957c.png)
 
 # Project Board
 https://trello.com/b/43fRtdGo/project-board
+
+
+
+
 
 # How to run
 - Download the latest binary from the Release section on the right on GitHub.  
